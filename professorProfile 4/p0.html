@@ -1,0 +1,1156 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="p0.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+      <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script src="banner.js"></script>
+        <link rel="stylesheet" type="text/css" href="banner.css">
+        <link rel="stylesheet" type="text/css" href="minical.css">    
+           
+            <script src='md5.js'></script> 
+            
+      <script>
+                $.fn.autogrow = function(options)
+    {
+        return this.filter('textarea').each(function()
+        {
+            var self         = this;
+            var $self        = $(self);
+            var minHeight    = $self.height();
+            var noFlickerPad = $self.hasClass('autogrow-short') ? 0 : parseInt($self.css('lineHeight')) || 0;
+
+            var shadow = $('<div></div>').css({
+                position:    'absolute',
+                top:         -10000,
+                left:        -10000,
+                width:       $self.width(),
+                fontSize:    $self.css('fontSize'),
+                fontFamily:  $self.css('fontFamily'),
+                fontWeight:  $self.css('fontWeight'),
+                lineHeight:  $self.css('lineHeight'),
+                resize:      'none',
+          'word-wrap': 'break-word'
+            }).appendTo(document.body);
+
+            var update = function(event)
+            {
+                var times = function(string, number)
+                {
+                    for (var i=0, r=''; i<number; i++) r += string;
+                    return r;
+                };
+
+                var val = self.value.replace(/</g, '&lt;')
+                                    .replace(/>/g, '&gt;')
+                                    .replace(/&/g, '&amp;')
+                                    .replace(/\n$/, '<br/>&nbsp;')
+                                    .replace(/\n/g, '<br/>')
+                                    .replace(/ {2,}/g, function(space){ return times('&nbsp;', space.length - 1) + ' ' });
+
+        // Did enter get pressed?  Resize in this keydown event so that the flicker doesn't occur.
+        if (event && event.data && event.data.event === 'keydown' && event.keyCode === 13) {
+          val += '<br />';
+        }
+
+                shadow.css('width', $self.width());
+                shadow.html(val + (noFlickerPad === 0 ? '...' : '')); // Append '...' to resize pre-emptively.
+                $self.height(Math.max(shadow.height() + noFlickerPad, minHeight));
+            }
+
+            $self.change(update).keyup(update).keydown({event:'keydown'},update);
+            $(window).resize(update);
+            update();
+        });
+    };
+            $(document).ready(function() {
+                $(function() {
+                 $('#nevt-desc').autogrow();
+                 $('#nevt-desc').css('overflow', 'hidden').autogrow()
+              });        
+                
+                $("#edit-picture").hide();    
+                
+                $(document).delegate("#profile-picture","mouseover",function(){
+                    $("#edit-picture").show();
+                    });  
+                $(document).delegate("#edit-picture","mouseover",function(){
+                    $("#edit-picture").show();
+                    }); 
+                $(document).delegate("#edit-picture","mouseout",function(){
+                    $("#edit-picture").hide();
+                    });         
+                $(document).delegate("#profile-picture","mouseout",function(){
+                    $("#edit-picture").hide();
+                    }); 
+
+                
+
+
+
+
+                              $( ".class-name" ).each(function( index ) {
+                                                if($(this).text().length>21){
+                                                //alert($(this).attr("id"));
+                                                $(this).text($(this).text().substr(0,18)+"...");
+                                                }
+                                                });
+                              $( ".club-name" ).each(function( index ) {
+                                                      if($(this).text().length>21){
+                                                      //alert($(this).attr("id"));
+                                                      $(this).text($(this).text().substr(0,18)+"...");
+                                                      }
+                                                      });
+     
+                              
+
+                
+                              
+                              
+                              
+                              $(document).delegate(".x-icon","mouseover",function(){
+                                                   $(this).closest(".class-buttons").find(".xdescription").show();
+                                                   });  
+                              $(document).delegate(".x-icon","mouseout",function(){
+                                                   $(this).closest(".class-buttons").find(".xdescription").hide();
+                                                   });    
+                              
+                       
+                                                   $(document).delegate(".edit-classes","mousedown",function(){
+                                                   $(".edit-classes").hide();
+                                                   $("#done-edit-classes").show();
+                                                   $(".class-buttons").show();
+                                                   });    
+                              
+                              $(document).delegate("#done-edit-classes","mousedown",function(){
+                                                   $(this).hide();
+                                                   $(".edit-classes").show();
+                                                   $(".class-buttons").hide();
+                                                   });    
+   
+                              
+                              
+                              $(document).delegate(".x-icon","click",function(){
+                                                   var pid= "kw="+$(this).closest(".class-one").attr("id");
+                                                   $("#blackcanvas").show();
+                                                   $(".dropconfirm").attr("id",pid);
+                                                   
+                                                   });  
+                              
+                              
+                              $(document).delegate("#blackcanvas","click",function(e){
+                                                   
+                                                   if(($(e.target).is(".dropconfirm > *"))||($(e.target).is(".dropconfirm"))){return false;
+                                                   
+                                                   }
+                                                   
+                                                   $(this).hide();
+                                                   
+                                                   });
+                              
+                              $(document).delegate(".dbuttons","click",function(){
+                                                   var v= $(this).val();
+                                                   $("#blackcanvas").hide();
+                                                   if(v==1){
+                                                   var tid= $(".dropconfirm").attr("id").split("=");
+                                                   $("#"+tid[1]).hide();
+                                                   }
+                                                   $("#blackcanvas").hide();
+                                                   
+                                                   });
+                              
+                              
+                              $(document).delegate("#dexit","mouseover",function(){
+                                                   
+                                                   $(this).css("opacity","1");
+                                                   });
+                              
+                              $(document).delegate("#dexit","mouseout",function(){
+                                                   
+                                                   $(this).css("opacity","0.7");
+                                                   });
+                              
+                              
+                              $(document).delegate("#dexit","click",function(){
+                                                  
+                                                   $("#blackcanvas").fadeOut();
+                                                   $("#blackcanvas2").fadeOut();
+                                                   $("#blackcanvas3").fadeOut();
+                                                   });
+                              $(document).delegate(".edit-clubs","mousedown",function(){
+                                                   $(".edit-clubs").hide();
+                                                   $("#done-edit-clubs").show();
+                                                   $(".club-buttons").show();
+                                                   });    
+                              
+                              $(document).delegate("#done-edit-clubs","mousedown",function(){
+                                                   $(this).hide();
+                                                   $(".edit-clubs").show();
+                                                   $(".club-buttons").hide();
+                                                   });   
+                              
+                              var ut=$("#university-title").text();
+                              var st=$("#school-title").text();
+                              var mat=$("#study-title").text();
+                              var mit=$("#minor-title").text();
+                              var eml=$("#user-email").text();
+                              var btx=$("#bio-contents").text();
+                              $(document).delegate(".edit-profile","click",function(){
+                                                   $(this).addClass("pediting");
+                                                   $(this).text("Editing... Click to complete");
+                                                   
+                                                   $("#user-profile-info").hide();
+                                                   $("#editcolumn-u").val(ut);
+                                                   $("#editcolumn-s").val(st);
+                                                   $("#editcolumn-a").val(mat);
+                                                   $("#editcolumn-i").val(mit);
+                                                   $(".editprofile").show();
+                                                   
+                                                   $(".peditable").hide();
+                                                   $(".emailtext").val(eml);
+                                                   $(".biotext").val(btx);
+                                                   $(".editingbio").show();
+                                                   
+                                                   });
+                              
+                              $(document).delegate(".pediting","click",function(){
+                              
+                                                   $(this).removeClass("pediting");
+                                                   $(this).text("Edit Profile");
+                                                   
+                                                   $(".editprofile").hide();
+                                                   $("#university-title").text(ut);
+                                                   $("#school-title").text(st);
+                                                   $("#study-title").text(mat);
+                                                   $("#minor-title").text(mit);
+                                                   $("#user-profile-info").show();
+                                                   
+                                                   $(".editingbio").hide();
+                                                   $("#user-email").text(eml);
+                                                   $("#bio-contents").text(btx);
+                                                   $(".peditable").show();
+                                                   
+                                                   /*Ajax goes here*/
+                                                   /*ut= university title; 
+                                                     st= school title
+                                                     mat= major title
+                                                     mit= minor title
+                                                     eml= email address
+                                                     btx= bio text
+                                                    */
+                                                   });
+                              
+                              $(document).delegate(".editcolumn","keyup",function(){
+                                                   if($(this).attr("id")=="editcolumn-u"){
+                                                   ut=$(this).val();
+                                                   }
+                                                   if($(this).attr("id")=="editcolumn-s"){
+                                                   st=$(this).val();
+                                                   }
+                                                   if($(this).attr("id")=="editcolumn-a"){
+                                                   mat=$(this).val();
+                                                   }
+                                                   if($(this).attr("id")=="editcolumn-i"){
+                                                   mit=$(this).val();
+                                                   }
+                                                   });
+                              
+                              $(document).delegate(".editingbio","keyup",function(){
+                                                   if($(this).hasClass("emailtext")){
+                                                   eml=$(this).val();
+                                                   }
+                                                   if($(this).hasClass("biotext")){
+                                                   btx=$(this).val();
+                                                   }
+                                                   
+                                                   });
+                              
+                               $(document).delegate(".adminc","mouseover",function(){
+                                                    $(this).css({"opacity":"1"});
+                                                    });
+                              
+                              $(document).delegate(".adminc","mouseout",function(){
+                                                   $(this).css({"opacity":".9"});
+                                                   });
+                              
+                              $(document).delegate(".annbuttons","click",function(){
+                                                   
+                                                   $("#blackcanvas2").hide();
+                                                   
+                                                   if($(this).hasClass("ann-submit")){
+                                                   
+                                                   var tid=$(this).attr("id").split("=");
+                                                   var cid=tid[1];
+                                                   /*cid is the course/club id*/
+                                                   
+                                                   /*Ajax goes here*/
+                                                   
+                                                   }
+                                                   
+                                                   });
+                              
+                              //need slightly revise!!
+                              $(document).delegate(".acabuttons","click",function(){
+                                                   
+                                                   $("#blackcanvas3").fadeOut();
+                                                   
+                                                   if($(this).hasClass("aca-submit")){
+                                                   
+                                                   var tid=$(this).attr("id").split("=");
+                                                   var cid=tid[1];
+                                                   /*cid is the course/club id*/
+                                                   
+
+                                                   var t= $("#nevt-title").val();
+                                                   var desc=$("#nevt-desc").val();
+                                                   
+                                                   var st= $("#nevt-st").val();
+                                                   var ed= $("#nevt-ed").val();
+                                                  
+                                                   
+                                                   
+                                                   var sy=retyear(st);
+                                                   var sm=retmonth(st);
+                                                   sm= parseInt(sm)-1;
+                                                   var sd=retday(st);
+                                                   
+                                                   var sh=rethour(st);
+                                                   var smin=retminute(st);
+                                                   
+                                                   var ey=retyear(ed);
+                                                   var em=retmonth(ed);
+                                                   em= parseInt(em)-1;
+                                                   var eday=retday(ed);
+                                                   
+                                                   var eh=rethour(ed);
+                                                   var emin=retminute(ed);
+                                                   var gt="";
+                                                   
+                                                   var gt= cid;
+                                                   
+                                                   
+                                                   gt=gt.split(' ').join('').toLowerCase();
+                                                   
+                                                   
+                                                   
+                                                   var idstring= sy+""+sm+""+sd+""+sh+""+smin+""+ey+""+em+""+eday+""+eh+""+emin+""+gt+""+t+""+desc;
+                                                   idstring=idstring.split(' ').join('').toLowerCase();
+                                                   
+                                                   idstring=md5(idstring);
+                                                   
+                                                   
+                                                   
+                                                   gt=gt+" "+idstring;
+                                                   var dta=new Date(sy, sm ,sd,sh,smin,0);
+                                                   var dtb=new Date(ey, em ,eday,eh,emin,0);
+                                                   if(dtb<=dta){alert("end time cannot smaller than start time");return false;}
+                                                   
+                                                   
+                                                   
+                                                   //alert to test
+                                                   alert(t+","+gt+","+desc+","+dta+","+dtb);
+                                                   
+                                                   dta = dta.getFullYear() + '-' +
+                                                   ('00' + (dta.getMonth()+1)).slice(-2) + '-' +
+                                                   ('00' + dta.getDate()).slice(-2) + ' ' + 
+                                                   ('00' + dta.getHours()).slice(-2) + ':' + 
+                                                   ('00' + dta.getMinutes()).slice(-2) + ':' + 
+                                                   ('00' + dta.getSeconds()).slice(-2);
+                                                   dtb = dtb.getFullYear() + '-' +
+                                                   ('00' + (dtb.getMonth()+1)).slice(-2) + '-' +
+                                                   ('00' + dtb.getDate()).slice(-2) + ' ' + 
+                                                   ('00' + dtb.getHours()).slice(-2) + ':' + 
+                                                   ('00' + dtb.getMinutes()).slice(-2) + ':' + 
+                                                   ('00' + dtb.getSeconds()).slice(-2);
+                                                   
+                                                   if(t)
+                                                   {
+                                                   /*ajax goes here*/
+                                                   /*
+                                                   $.ajax({
+                                                          url: "http://127.0.0.1/PhpProject/calendar_0114/fullcalendar/user/create_events.php",
+                                                          data: "&id=" + gt+"&title=" + t+ "&start=" + dta+ "&end=" + dtb + "&description=" + desc,
+                                                          type: "POST",
+                                                          error: function(json){ alert('Error'); },
+                                                          success: function(json) { alert('Added Successfully'); }
+                                                          });
+                                                   */
+                                                   
+                                                   
+                                                   
+                                                   }
+                                                   
+                                                   }
+                                                   
+                                                   });
+                              
+                              
+                              
+                              $(document).delegate(".announce","mousedown",function(){
+                                                   var tid="";
+                                                   if($(this).closest(".announcecolumn").hasClass("toolsforclass"))
+                                                   {
+                                                   tid="ed="+$(this).closest(".class-one").attr("id");
+                                                   }
+                                                   
+                                                   if($(this).closest(".announcecolumn").hasClass("toolsforclub"))
+                                                   {
+                                                   tid="ed="+$(this).closest(".club-one").attr("id");
+                                                   }
+                                                   
+                                                   
+                                                   $(".annbuttons").attr("id",tid)
+                                                   $("#blackcanvas2").show();
+                                                   
+                                                   });
+                              
+                              $(document).delegate(".addevent","mousedown",function(){
+                                                   var tid="";
+                                                   if($(this).closest(".announcecolumn").hasClass("toolsforclass"))
+                                                   {
+                                                   tid="ed="+$(this).closest(".class-one").attr("id");
+                                                   }
+                                                   
+                                                   if($(this).closest(".announcecolumn").hasClass("toolsforclub"))
+                                                   {
+                                                   tid="ed="+$(this).closest(".club-one").attr("id");
+                                                   }
+                                                   
+                                                   
+                                                   $(".acabuttons").attr("id",tid)
+                                                   $("#blackcanvas3").fadeIn();
+                                                   
+                                                   });
+                              
+                              
+                              
+                              
+                              function retyear(t){
+                              var t0=t.split(" ");
+                              var t1=t0[0].split("/");
+                              return t1[0];
+                              }
+                              function retmonth(t){
+                              var t0=t.split(" ");
+                              var t1=t0[0].split("/");
+                              return t1[1];
+                              }
+                              function retday(t){
+                              var t0=t.split(" ");
+                              var t1=t0[0].split("/");
+                              return t1[2];
+                              }  
+                              function rethour(t){
+                              var t0=t.split(" ");
+                              var t1=t0[1].split(":");
+                              return t1[0];
+                              }
+                              function retminute(t){
+                              var t0=t.split(" ");
+                              var t1=t0[1].split(":");
+                              return t1[1];
+                              }
+                              
+                              
+                              
+                              
+                              /*JQ for mini calendar*/
+                              function daysInMonth(month, year) {
+                              return new Date(year, month+1, 0).getDate();
+                              }
+
+                              function startAt(month, year) {
+                              return new Date(year, month, 1).getDay();
+                              }
+                              
+                              var date= new Date();
+                              var months=new Array();
+                              months[0]="January";
+                              months[1]="February";
+                              months[2]="March";
+                              months[3]="April";
+                              months[4]="May";
+                              months[5]="June";
+                              months[6]="July";
+                              months[7]="August";
+                              months[8]="September";
+                              months[9]="October";
+                              months[10]="November";
+                              months[11]="December";
+                              var $m= date.getMonth();
+                              var $M = months[$m]; 
+                              var $y = date.getFullYear(); 
+                              $(".minical-h1").text($M+" "+$y);
+                              
+                              var $ds=daysInMonth($m,$y);
+                              //alert(daysInMonth(m,y));
+                              
+                              var weekday=new Array(7);
+                              weekday[0]="su";
+                              weekday[1]="mo";
+                              weekday[2]="tu";
+                              weekday[3]="we";
+                              weekday[4]="th";
+                              weekday[5]="fr";
+                              weekday[6]="sa";
+                              var $w = weekday[startAt($m,$y)]; 
+                              //alert(w);
+                              
+                              $( ".calcell" ).each(function( index ) {
+                                                var tid=$(this).attr("id");
+                                                   var tidsp= tid.split("_");
+                                                   var idx= tidsp[2];
+                                                   var td= tidsp[1];
+                                                   if((td==$w)&&(idx<=6))
+                                                   {
+                                                    
+                                                   for ( var i = idx; i < (parseInt(idx)+parseInt($ds)); i++ ) {
+                                                   
+                                                   $(".cl_"+i).removeClass("disable");
+                                                   $(".cl_"+i).text(parseInt(i)-parseInt(idx)+parseInt(1));
+                                                   }
+                                                   
+                                                   }
+                                                      });
+                              
+                              $(document).delegate(".m-next","click",function(){
+                                                   cleanCalendar();
+                                                   if($m<11){
+                                                   $m=$m+1;
+                                                   }else{
+                                                   $m=0;
+                                                   }
+                                                   
+                                                   var $M = months[$m]; 
+                                                   var $ds=daysInMonth($m,$y);
+                                                   $(".minical-h1").text($M+" "+$y);
+                                                   
+                                                   var $ds=daysInMonth($m,$y);
+                                                   var $w = weekday[startAt($m,$y)];
+                                                   $( ".calcell" ).each(function( index ) {
+                                                                        var tid=$(this).attr("id");
+                                                                        var tidsp= tid.split("_");
+                                                                        var idx= tidsp[2];
+                                                                        var td= tidsp[1];
+                                                                        if((td==$w)&&(idx<=6))
+                                                                        {
+                                                                        
+                                                                        for ( var i = idx; i < (parseInt(idx)+parseInt($ds)); i++ ) {
+                                                                        
+                                                                        $(".cl_"+i).removeClass("disable");
+                                                                        $(".cl_"+i).text(parseInt(i)-parseInt(idx)+parseInt(1));
+                                                                        }
+                                                                        
+                                                                        }
+                                                                        });
+                                                   
+                                                   });
+                              
+                              $(document).delegate(".m-prev","click",function(){
+                                                   cleanCalendar();
+                                                   if($m>0){
+                                                   $m=$m-1;
+                                                   }else{
+                                                   $m=11;
+                                                   }
+                                                   
+                                                   var $M = months[$m]; 
+                                                   var $ds=daysInMonth($m,$y);
+                                                   $(".minical-h1").text($M+" "+$y);
+                                                   
+                                                   var $ds=daysInMonth($m,$y);
+                                                   var $w = weekday[startAt($m,$y)];
+                                                   $( ".calcell" ).each(function( index ) {
+                                                                        var tid=$(this).attr("id");
+                                                                        var tidsp= tid.split("_");
+                                                                        var idx= tidsp[2];
+                                                                        var td= tidsp[1];
+                                                                        if((td==$w)&&(idx<=6))
+                                                                        {
+                                                                        
+                                                                        for ( var i = idx; i < (parseInt(idx)+parseInt($ds)); i++ ) {
+                                                                        
+                                                                        $(".cl_"+i).removeClass("disable");
+                                                                        $(".cl_"+i).text(parseInt(i)-parseInt(idx)+parseInt(1));
+                                                                        }
+                                                                        
+                                                                        }
+                                                                        });
+                                                   
+                                                   });
+                              
+                              function cleanCalendar(){
+                              $( ".calcell" ).each(function( index ) {
+                                                   $(this).text("");
+                                                   $(this).addClass("disable");
+                                                   });
+                              }
+                              
+                              function cleanBlinkActive1(){
+                              $( ".calcell" ).each(function( index ) {
+                                                   $(this).removeClass("active1");
+                                                   $(this).removeClass("blink1");
+                                                   
+                                                   });
+                              }
+                              
+                              function cleanBlinkActive2(){
+                              $( ".calcell" ).each(function( index ) {
+                                                   $(this).removeClass("active2");
+                                                   $(this).removeClass("blink2");
+                                                   
+                                                   });
+                              }
+                              
+                              function cleanBlink1(){
+                              $( ".calcell" ).each(function( index ) {
+                                                   
+                                                   $(this).removeClass("blink1");
+                                                   
+                                                   });
+                              }
+                              
+                              function cleanBlink2(){
+                              $( ".calcell" ).each(function( index ) {
+                                                   
+                                                   $(this).removeClass("blink2");
+                                                   
+                                                   });
+                              }
+                              
+                              var blinkflag=0;
+                              $(document).delegate(".calcell","click",function(){
+                                                   if(!$(this).hasClass("disable")){
+                                                   if(blinkflag==0){
+                                                   cleanBlinkActive1();
+                                                   $(this).addClass("active1");
+                                                   $(this).addClass("blink1");
+                                                   
+                                                   if(hp1exists==0){
+                                                   createHourPicker1();
+                                                   $(".hourpick1").css("margin-left","0px");
+                                                   }
+                                                   
+                                                   }
+                                                   
+                                                   if(blinkflag==1){
+                                                   cleanBlinkActive2();
+                                                   $(this).addClass("active2");
+                                                   $(this).addClass("blink2");
+                                                   if(hp2exists==0){
+                                                   createHourPicker2();
+                                                   $(".hourpick2").css("margin-left","-84px");
+                                                   $
+                                                   }
+                                                   }
+                                                   
+                                                   }
+                                 
+                                                   });
+                              
+                              var hp1exists=0;
+                              function createHourPicker1(){
+                              hp1exists=1;
+                              $(".hphead1").append("<button class='hp1ok'>ok</button>");
+                              $(".hourpick1").append("<div class='hp1content'></div>");
+                              if(!$(".hourpick1 div").hasClass("hphead1")){
+                              $(".hourpick1 div").addClass("hphead1");
+                              }
+                              for ( var i = 0; i < 24; i++ ){
+                                for( var j = 0; j < 4; j++ ){
+                                    var x= parseInt(j)*parseInt(15);
+                                    var si= 0;
+                                    var pending="AM";
+                              if(i<12){
+                              if(i==0){si=12;}else{si=i;}
+                              pending="AM";
+                              }else{
+                              si= parseInt(i)-parseInt(12);
+                              if(si==0){si=12;}
+                              pending="PM";
+                              }
+                              var idstring=i+"-"+x;
+                              var showstring=si+":"+x+" "+pending;
+                                    
+                                    $(".hp1content").append("<div class='hp1cells' id='"+idstring+"'>"+showstring+"</div>");
+                                }
+                              }
+                              
+                              }
+                              
+                              
+                              
+                              
+                              var hp2exists=0;
+                              function createHourPicker2(){
+                              hp2exists=1;
+                              $(".hphead2").append("<button class='hp2ok'>ok</button>");
+                              $(".hourpick2").append("<div class='hp2content'></div>");
+                              if(!$(".hourpick2 div").hasClass("hphead2")){
+                              $(".hourpick2 div").addClass("hphead2");
+                              }
+                              for ( var i = 0; i < 24; i++ ){
+                              for( var j = 0; j < 4; j++ ){
+                              var x= parseInt(j)*parseInt(15);
+                              var si= 0;
+                              var pending="AM";
+                              if(i<12){
+                              if(i==0){si=12;}else{si=i;}
+                              pending="AM";
+                              }else{
+                              si= parseInt(i)-parseInt(12);
+                              if(si==0){si=12;}
+                              pending="PM";
+                              }
+                              var idstring=i+"-"+x;
+                              var showstring=si+":"+x+" "+pending;
+                              
+                              $(".hp2content").append("<div class='hp2cells' id='"+idstring+"'>"+showstring+"</div>");
+                              }
+                              }
+                              
+                              }
+                              
+                              $(document).delegate(".hp1cells","mouseover",function(){
+                                                   $(this).css({"background-color":"#ff8263","color":"white"});
+                                                   });
+                              $(document).delegate(".hp1cells","mouseout",function(){
+                                                   $(this).css({"background-color":"transparent","color":"black"});
+                                                   });
+                              
+                              $(document).delegate(".hp1cells","click",function(){
+                                                   $(".hpdisplay1 span").text($(this).text());
+                                                   $(".hpdisplay1").attr("id",$(this).attr("id"));
+                                                   });
+                              
+                              $(document).delegate(".hp1ok","click",function(){
+                                                   if($(".hpdisplay1").attr("id")!="notime1"){
+                                                   $(this).remove();
+                                                   $(".hp1content").remove();
+                                                   $(".hourpick1 div").removeClass("hphead1");
+                                                   cleanBlink1();
+                                                   blinkflag=1;
+                                                   }
+                                                   
+                                                   });
+                              
+                              
+                              
+                              $(document).delegate(".hp2cells","mouseover",function(){
+                                                   $(this).css({"background-color":"#ff8263","color":"white"});
+                                                   });
+                              $(document).delegate(".hp2cells","mouseout",function(){
+                                                   $(this).css({"background-color":"transparent","color":"black"});
+                                                   });
+                              
+                              $(document).delegate(".hp2cells","click",function(){
+                                                   $(".hpdisplay2 span").text($(this).text());
+                                                   $(".hpdisplay2").attr("id",$(this).attr("id"));
+                                                   });
+                              
+                              $(document).delegate(".hp2ok","click",function(){
+                                                   if($(".hpdisplay2").attr("id")!="notime2"){
+                                                   $(this).remove();
+                                                   $(".hp2content").remove();
+                                                   $(".hourpick2 div").removeClass("hphead2");
+                                                   cleanBlink2();
+                                                   blinkflag=2;
+                                                   }
+                                                   
+                                                   });
+                              
+                              //createHourPicker1();
+
+                                          
+        });
+            
+      </script>
+
+  </head>
+  <body>
+    <section id="banner">
+
+          <img src = "src/logo.png" id = "logo">
+          <a class = "university clickable" >
+            <span id = "u-notification" class="notifications">
+              1
+            </span>
+          </a>
+          <a class = "calendar clickable">
+            <span id = "c-notification" class="notifications">
+              4
+            </span>
+              <img class="chv ic" >
+                <img class="cnm ic">
+                <img class="cac ic">
+          </a>
+
+
+          <div id = "search-container">
+            <input id = "search-bar" name = "search" type = "text" placeholder = "Find groups and faculty..."/>
+          </div>
+           <a id = "profile-icon"> 
+            <div style = "display:inline-block;" id = "border">
+              <img id = "profile-pic" src = "src/prof-pic.png">
+            </div>
+          </a>
+        </div>
+        <div id = "university-menu" class="menus">
+          <div class = "caret">
+
+          </div>
+          <div id = "u-menu-content">
+            <div id = "menu-content-header">
+              <div id = "rfloat">
+                <a href = "#" role = "button" id = "u-link">Go to University Page</a>
+                 <span id = "separator">·</span> 
+                 <a href = "#" role = "button" id = "settings-link">Settings</a>
+              </div>
+              <a id = "notifications-header">
+                Campus Feed
+              </a>
+              </h3>
+            </div>
+          </div>
+
+        </div>
+            
+            <div id = "profile-menu">
+                <div class = "caret-3">
+                    
+                </div>
+                <div id = "p-menu-content">
+                    <div id = "menu-content-header">
+
+                        <a id = "profile-header">
+                            Visit My Profile
+                        </a>
+                            </h3>
+                            </div>
+                    <div id="profile-edit">
+                        Edit Profile
+                    </div>
+                    
+                    <div id="signout">
+                        Sign Out
+                    </div>
+                </div>
+                
+            </div>
+
+        <div id = "calendar-menu" class="menus">
+          <div class = "caret-2">
+
+          </div>
+          <div id = "c-menu-content">
+            <div id = "menu-content-header">
+              <div id = "rfloat">
+
+                 <a href = "#" role = "button" id = "settings-link">New Event +</a>
+              </div>
+              <a id = "notifications-header">
+                Upcoming (10)
+              </a>
+
+              <a id = "incomplete-header">
+                Incomplete (4)
+              </a>
+            </div>
+          </div>
+        </div>
+        </section>
+        
+        
+    <section id = "user-profile">
+      <header id = "profile-header-area">
+        <div>
+          <div id = "profile-intro">
+            <a id = "avatar" href = "#">
+              <img id = "profile-picture" alt = "user image" border = "0" src = "src/big-prof-pic.png">
+              <span id = "edit-picture">
+                <img id = "camera-icon" alt = "edit image" border = "0" src = "src/camera-icon.png">
+              </span>
+            </a>
+            <h1 id = "user-profile-header">Professor Lazarus</h1>
+            <a class = "connect-button">
+              <img src = "src/link-icon.png" class = "connect-icon"><p class = "connect-text">Linq</p>
+            </a>
+
+          </div>
+          <div id = "user-profile-main">
+
+
+            <div id = "user-profile-bio">
+              <div id = "bio-header">
+                <h3 id = "bio-head-txt">Bio</h3>
+                <h5 id = "bio-email">Email:</h5><p id = "user-email" class="peditable">jlazaru2@u.rochester.edu</p>
+                  <input class="emailtext editingbio" placeholder="email address"></input>
+                <button class = "edit-profile">Edit Profile</button>
+              </div>
+              <div class="peditable" id = "bio-contents">
+              </div>
+                <textarea class="biotext editingbio" >
+                </textarea>
+              <div id = "linqs-section">
+                <h3 id = "linq-number">512</h3>
+                <p id = "linq-term">links</p>
+              </div>
+            </div>
+
+            <div id = "present-classes">
+              <div id = "classes-top">
+                <p id = "classes-header">Classes</p>
+                  
+                <a class = "edit-classes" >
+                  <img width=  "14px" id = "edit-icon-pic" src = "src/edit-icon.png"><p id = "btn-p-style">Edit</p>
+                </a>
+                  
+                <a id = "done-edit-classes" >
+                      Done Editing
+                </a>
+
+                <a id = "join-classes">
+                 <p id = "browse-classes">Add Classes</p>       
+                </a>
+
+              </div>
+                
+                
+                <!--courseid is a unique id in any format, just similar to the tagid in calendar page, but should not have "=" symbol -->
+              <div class = "class-one" id="courseid_0">
+                <a class = "class-link1">
+                  <div style = "display: inline-block;" id = "class-pic-container">
+                    <img id = "class-pic"  src = "src/class-pic.png" alt = "Class Picture">
+                  </div>
+                  <h3 class= "class-name">Computational Biology</h3>
+
+                </a>
+                  <div class="announcecolumn toolsforclass">
+                      <div class = "announce adminc"><img src = "src/announce.png" ></div>
+                      <div class = "addevent adminc"><img src = "src/add-event.png" ></div>
+                  </div>
+                  
+                  <div class = "class-buttons">
+                      <a class = "drop-course"><img class = "x-icon" src = "src/x-icon.png"></a>
+                      
+                      <div class="xdescription"><div class="xwedge"></div><div class="xtext">Drop Class</div>
+                      </div>
+                  </div>
+                  
+              </div>
+                
+              
+                
+                
+              
+
+              <div class = "drop-check">
+                <div id = "drop-check-header">
+                </div>
+              </div>
+            </div>
+            <div id = "present-clubs">
+                  <div id = "clubs-top">
+                      <p id = "clubs-header">Groups</p>
+                      
+                      <a class = "edit-clubs" >
+                          <img width=  "14px" id = "edit-icon-pic" src = "src/edit-icon.png"><p id = "btn-p-style">Edit</p>
+                              </a>
+                      
+                      <a id = "done-edit-clubs" >
+                          Done Editing
+                      </a>
+                      
+                      <a id = "join-clubs">
+                          <p id = "browse-clubs">Add Clubs</p>       
+                      </a>
+                      
+                  </div>
+                  <!--courseid is a unique id in any format, just similar to the tagid in calendar page, but should not have "=" symbol -->
+                  <div class = "club-one" id="clubid_0">
+                      <a class = "club-link1">
+                          <div style = "display: inline-block;" id = "club-pic-container">
+                              <img id = "club-pic"  src = "src/class-pic.png" alt = "Club Picture">
+                          </div>
+                          <h3 class = "club-name">Biology Club</h3>
+                          
+                      </a>
+                      <div class = "president">
+                          <a id = "president-link1"><img id = "president-pic1" src = "src/professor-pic.png"><p id = "president-name1">Daniel Garrigan</p></a>
+                      </div>
+                      
+                      <div class = "club-buttons x-buttons">
+                          <a class = "drop-course"><img class = "x-icon" src = "src/x-icon.png"></a>
+                          
+                          <div class="xdescription"><div class="xwedge"></div><div class="xtext">Drop Club</div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                                    
+                  <div class = "drop-check">
+                      <div id = "drop-check-header">
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+        </div>
+      </header>
+      <div id = "user-profile-info">
+        <div id = "present-university">
+          <div class = "tile-top">
+            <p id = "univ-header">School</p>
+          </div>
+            <h1 id = "university-title">NYU</h1>
+            <h3 id = "school-title">Polytechnic Institute</h3>
+        </div>
+       
+        <div id = "present-topic">
+            <div class = "tile-top">
+              <p id = "tile-header">Department</p>
+            </div>
+            <img id = "ent-icon" src = "src/ent-icon.png">
+            <h1 id = "study-title">Entrpreneurship</h1>
+        </div>
+        <div id = "present-minor">
+            <div class = "tile-top">
+              <p id = "tile-header">Research Interest</p>
+            </div>
+            <h1 id = "minor-title">Advertising Technology</h1>
+        </div>
+      </div>
+        
+      <div class="editprofile">
+          <input type="text" class="editcolumn" id="editcolumn-u" placeholder="University"></input>
+          <input type="text" class="editcolumn" id="editcolumn-s" placeholder="School"></input>
+          <input type="text" class="editcolumn" id="editcolumn-a" placeholder="Major"></input>
+          <input type="text" class="editcolumn" id="editcolumn-i" placeholder="Minor"></input>
+          <!--<button class="pbuttons">Submit</button><button class="pbuttons">Cancel</button>-->
+      </div>
+
+    </section>
+      <section id="blackcanvas">
+      <div class="dropconfirm"><img src="src/exit-btn.png" id="dexit"><div id="dtext">Are you sure you want to drop Computational Biology?</div><button id="confirm-d" class="dbuttons-can" value="1">Drop</button><button id="confirm-c" class="dbuttons" value="0">Cancel</button>
+      </div>
+      </section>
+      
+      
+      <section id="blackcanvas2">
+          <div class="uploadpost"><img src="src/x-icon.png" id="dexit">
+              <textarea class="doapost" placeholder="make a quick post"></textarea>
+              <button class="annbuttons ann-submit">Submit</button><button class="annbuttons">Cancel</button>
+          </div>
+          
+      </section>
+      
+      <section id="blackcanvas3">
+
+          <div class = "addevent-header0">
+            Computational Biology
+            <br>
+            <span class = "addevent-header">Add an event to this course's schedule</span>
+            <img src="src/exit-btn.png" id="dexit">
+          </div>
+
+          <div class="uploadevent">
+              
+              <input type="text" id="nevt-title" placeholder="Name this event" class="nevt-input">
+                  
+                  <textarea wrap id="nevt-desc" onkeypress="taHeight()" placeholder="Provide some background info" class="nevt-input"></textarea>
+                 
+          </div>
+           <span id="sttext">Start:</span><!--<input type="text" id="nevt-st" placeholder="Start time" class="nevt-input datepickinput">-->
+                      <span id="edtext">End:</span><!--<input type="text" id="nevt-ed" placeholder="End time" class="nevt-input datepickinput">-->
+              <button class="acabuttons aca-submit">Submit</button><button class="acabuttons">Cancel</button>
+          
+          
+          
+          <!--mini calendar start-->
+           
+           <section class="mounth">
+           <header class="minical-header">
+           <h1 class="minical-h1">JANUARY 2013</h1>
+           <span class="minical-desc">Select a day <br>for this event</span>
+
+           <nav role='padigation'>
+           <span class="m-prev"></span>
+           <span class="m-next"></span>
+           </nav>
+           </header>
+           
+           <article>
+           <div class="days">
+           <b>SU</b>
+           <b>MO</b>
+           <b>TU</b>
+           <b>WE</b>
+           <b>TH</b>
+           <b>FR</b>
+           <b>SA</b>
+           </div>
+           <div class="dates">
+           <span id="calcell_su_0" class="calcell disable cl_0"></span>
+           <span id="calcell_mo_1" class="calcell disable cl_1"></span>
+           
+           <span id="calcell_tu_2" class="calcell disable cl_2"></span>
+           <span id="calcell_we_3" class="calcell disable cl_3"></span>
+           <span id="calcell_th_4" class="calcell disable cl_4"></span>
+           <span id="calcell_fr_5" class="calcell disable cl_5"></span>
+           <span id="calcell_sa_6" class="calcell disable cl_6"></span>
+           <span id="calcell_su_7" class="calcell disable cl_7"></span>
+           <span id="calcell_mo_8" class="calcell disable cl_8"></span>
+           <span id="calcell_tu_9" class="calcell disable cl_9"></span>
+           <span id="calcell_we_10" class="calcell disable cl_10"></span>
+           <span id="calcell_th_11" class="calcell disable cl_11"></span>
+           <span id="calcell_fr_12" class="calcell disable cl_12"></span>
+           <span id="calcell_sa_13" class="calcell disable cl_13"></span>
+           <span id="calcell_su_14" class="calcell disable cl_14"></span>
+           <span id="calcell_mo_15" class="calcell disable cl_15"></span>
+           <span id="calcell_tu_16" class="calcell disable cl_16"></span>
+           <span id="calcell_we_17" class="calcell disable cl_17"></span>
+           <span id="calcell_th_18" class="calcell disable cl_18"></span>
+           <span id="calcell_fr_19" class="calcell disable cl_19"></span>
+           <span id="calcell_sa_20" class="calcell disable cl_20"></span>
+           <span id="calcell_su_21" class="calcell disable cl_21"></span>
+           <span id="calcell_mo_22" class="calcell disable cl_22"></span>
+           <span id="calcell_tu_23" class="calcell disable cl_23"></span>
+           <span id="calcell_we_24" class="calcell disable cl_24"></span>
+           <span id="calcell_th_25" class="calcell disable cl_25"></span>
+           <span id="calcell_fr_26" class="calcell disable cl_26"></span>
+           <span id="calcell_sa_27" class="calcell disable cl_27"></span>
+           <span id="calcell_su_28" class="calcell disable cl_28"></span>
+           <span id="calcell_mo_29" class="calcell disable cl_29"></span>
+           <span id="calcell_tu_30" class="calcell disable cl_30"></span>
+           <span id="calcell_we_31" class="calcell disable cl_31"></span>
+           <span id="calcell_th_32" class="calcell disable cl_32"></span>
+           
+           <span id="calcell_fr_33" class="disable calcell cl_33"></span>
+           <span id="calcell_sa_34" class="disable calcell cl_34"></span>
+           <span id="calcell_su_35" class="disable calcell cl_35"></span>
+           <span id="calcell_mo_36" class="disable calcell cl_36"></span>
+           <span id="calcell_tu_37" class="disable calcell cl_37"></span>
+           <span id="calcell_we_38" class="disable calcell cl_38"></span>
+           <span id="calcell_th_39" class="disable calcell cl_39"></span>
+           <span id="calcell_fr_40" class="disable calcell cl_40"></span>
+           <span id="calcell_sa_41" class="disable calcell cl_41"></span>
+           </div>
+           </article>
+           </section>
+           
+           <div class="hourpick1">
+               <div class="hphead1"><div id="notime1" class="hpdisplay1"><span>pick a time</span></div></div>
+           </div>
+          
+          <div class="hourpick2">
+              <div class="hphead2"><div id="notime2" class="hpdisplay2"><span>pick a time</span></div></div>
+          </div>
+          <!--mini calendar ends--> 
+          
+      </section>
+      
+	</body>
+</html>
